@@ -4,13 +4,13 @@ const jwt = require("jsonwebtoken");
 const tokenProvider = require("../../common/tokenProvider");
 const HttpError = require("../../common/httpError");
 
-
 const register = async (req, res) => {
   const { username, email, password } = req.body;
   /// check email có trùng hay ko?
   const existedEmail = await UserModel.findOne({ email });
   if (existedEmail) {
-    throw new HttpError('Email existed', 400);
+    console.log(existedEmail);
+    throw new HttpError("Email existed", 400);
   }
 
   const salt = bcrypt.genSaltSync(10);
@@ -29,9 +29,9 @@ const register = async (req, res) => {
       username: newUser.username,
       email: newUser.email,
     },
-    message: 'Register Successfully'
+    message: "Register Successfully",
   });
-}
+};
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -42,12 +42,12 @@ const login = async (req, res) => {
     throw new HttpError(`Account don't exist`, 400);
   }
 
-  const hashPassword = existedUser.password
+  const hashPassword = existedUser.password;
 
   const verifyPassword = bcrypt.compareSync(password, hashPassword);
 
   if (!verifyPassword) {
-    throw new HttpError('invalid Password', 400)
+    throw new HttpError("invalid Password", 400);
   }
   const token = tokenProvider.sign(existedUser._id);
 
@@ -60,86 +60,88 @@ const login = async (req, res) => {
       avatar: existedUser.avatar,
       token,
     },
-    message: 'Login Successfully'
-  })
-}
+    message: "Login Successfully",
+  });
+};
 
 const getUser = async (req, res) => {
-  const { user } = req
+  const { user } = req;
 
-  const userInfo = user ? {
-    username: user.username,
-    avatar: user.avatar,
-    _id: user._id
-  } : null
+  const userInfo = user
+    ? {
+        username: user.username,
+        avatar: user.avatar,
+        _id: user._id,
+      }
+    : null;
 
   res.send({
     success: true,
-    data: userInfo
-  })
-}
+    data: userInfo,
+  });
+};
 
 const getMe = async (req, res) => {
-  const { user } = req
-  const userMe = await UserModel.findById(user._id)
+  const { user } = req;
+  const userMe = await UserModel.findById(user._id);
 
   res.send({
     success: true,
     data: {
       _id: userMe._id,
       username: userMe.username,
-      avatar: userMe.avatar
-    }
-  })
-}
+      avatar: userMe.avatar,
+    },
+  });
+};
 
 const updateUser = async (req, res) => {
-  const { user } = req
-  const dataUpdate = req.body
+  const { user } = req;
+  const dataUpdate = req.body;
   const newUserUpdate = await UserModel.findByIdAndUpdate(
     user._id,
     dataUpdate,
     { new: true }
-  )
+  );
 
   res.send({
     success: true,
-    data: newUserUpdate
-  })
-}
+    data: newUserUpdate,
+  });
+};
 
 const updatePassword = async (req, res) => {
-  const { user } = req
-  const { currentPassword, newPassword } = req.body
-  const existedUser = await UserModel.findById(user._id)
+  const { user } = req;
+  const { currentPassword, newPassword } = req.body;
+  const existedUser = await UserModel.findById(user._id);
   if (!existedUser) {
     throw new HttpError(`Account don't exist`, 400);
   }
 
-  const hashPassword = existedUser.password
+  const hashPassword = existedUser.password;
 
-  const verifyPassword = bcrypt.compareSync(currentPassword, hashPassword)
+  const verifyPassword = bcrypt.compareSync(currentPassword, hashPassword);
   if (!verifyPassword) {
-    throw new HttpError('Invalid Password', 400);
+    throw new HttpError("Invalid Password", 400);
   }
 
   const salt = bcrypt.genSaltSync(10);
-  const newHashPassword = bcrypt.hashSync(newPassword, salt)
+  const newHashPassword = bcrypt.hashSync(newPassword, salt);
   const dataUpdate = {
-    password: newHashPassword
-  }
+    password: newHashPassword,
+  };
 
   const newUserUpdate = await UserModel.findByIdAndUpdate(
     user._id,
     dataUpdate,
     { new: true }
-  )
+  );
 
   res.send({
     success: true,
-    data: newUserUpdate
-  })
-}
+    data: newUserUpdate,
+  });
+};
 
 module.exports = {
   register,
@@ -147,5 +149,5 @@ module.exports = {
   getUser,
   updateUser,
   getMe,
-  updatePassword
+  updatePassword,
 };
