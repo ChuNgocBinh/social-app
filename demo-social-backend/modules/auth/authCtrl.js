@@ -12,7 +12,7 @@ const register = async (req, res) => {
     console.log(existedEmail);
     throw new HttpError("Email existed", 400);
   }
-
+  
   const salt = bcrypt.genSaltSync(10);
   const hashPassword = bcrypt.hashSync(password, salt);
 
