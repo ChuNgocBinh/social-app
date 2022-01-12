@@ -6,6 +6,7 @@ import request from "../../Api/request";
 import ProfileItemEdit from '../../Components/ProfileItemEdit/ProfileItemEdit'
 import * as Icon from "react-feather";
 import {Button} from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 export default function EditProfile() {
   const useMe = useAuth();
@@ -88,6 +89,8 @@ export default function EditProfile() {
         avatar: res.data
       }
       await handleSubmitUserName(newAvatar)
+      toast.success("Success Notification !")
+      // toast.success('Change Successfully')
       alert('Change Successfully')
     }
   }
