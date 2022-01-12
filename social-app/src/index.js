@@ -1,21 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import "./index.css";
+import "./styles/global.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
-import SocketProvider from "./Components/SocketProvider/SocketProvider";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <SocketProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </SocketProvider>
+      {/* <SocketProvider> */}
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+      {/* </SocketProvider> */}
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

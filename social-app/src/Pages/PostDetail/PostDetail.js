@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
+import commentApi from "../../Api/commentApi";
 import request from "../../Api/request";
 import Comment from "../../Components/Comment/Comment";
 import FormComment from "../../Components/FormComment/FormComment";
@@ -8,14 +9,13 @@ import MainLayout from "../../Components/Layout/MainLayout";
 import RightSidebarLayout from "../../Components/Layout/RightSidebarLayout";
 import PostCard from "../../Components/PostCard/PostCard";
 import { useSocket } from "../../Components/SocketProvider/SocketProvider";
-import { SocketContext } from "../../context/socket";
 import useAuth from "../../hooks/useAuth";
 
 export default function PostDetail() {
   const [post, setPost] = React.useState({});
   const [comments, setComments] = React.useState([]);
   const [profile, setProfile] = React.useState({});
-  const { isConnected, socketRef } = useSocket();
+  // const { isConnected, socketRef } = useSocket();
 
   const user = useAuth();
 
@@ -46,6 +46,11 @@ export default function PostDetail() {
     }
   };
   React.useEffect(() => {
+    const res = commentApi.getCommentByPost(postId);
+    res.then((data) => console.log(data.comments));
+  }, [postId]);
+
+  React.useEffect(() => {
     fetchPosts();
   }, []);
 
@@ -53,7 +58,7 @@ export default function PostDetail() {
     fetchComments();
   }, []);
 
-  React.useEffect(() => {}, [isConnected, postId, socketRef]);
+  // React.useEffect(() => {}, [isConnected, postId, socketRef]);
   const handleAddComment = async (value) => {
     const incRes = await request({
       url: `/posts/${postId}/incCommentPost`,
@@ -62,9 +67,9 @@ export default function PostDetail() {
 
     const datapost = { ...incRes.data, userId: user };
     setPost(datapost);
-    if (isConnected) {
-      socketRef.emit("join-post", postId);
-    }
+    // if (isConnected) {
+    //   socketRef.emit("join-post", comments);
+    // }
     const res = await request({
       url: "/comments/create",
       method: "POST",

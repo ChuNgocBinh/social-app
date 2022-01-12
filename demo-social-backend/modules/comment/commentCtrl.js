@@ -7,34 +7,29 @@ const createComment = async (req, res) => {
 
   const dataCommnet = {
     ...data,
-    userId: user._id
-  }
+    userId: user._id,
+  };
 
-  const newComment = await CommentModel.create(dataCommnet)
+  const newComment = await CommentModel.create(dataCommnet);
 
   res.send({
     success: 1,
     data: newComment,
   });
-}
+};
 
 const getCommentByPost = async (req, res) => {
-  const { postId } = req.params
+  const { postId } = req.params;
 
-  const comments = await CommentModel
-    .find({ postId })
-    .populate({
-      path: 'userId',
-      select: 'username avatar'
-    })
+  const comments = await CommentModel.find({ postId }).populate({
+    path: "userId",
+    select: "username avatar",
+  });
 
   res.send({
-    success: true,
-    data: comments
-  })
-}
-
-
+    comments,
+  });
+};
 
 // updateComment: async (req, res) => {
 //   try {
@@ -100,5 +95,5 @@ const getCommentByPost = async (req, res) => {
 
 module.exports = {
   createComment,
-  getCommentByPost
+  getCommentByPost,
 };

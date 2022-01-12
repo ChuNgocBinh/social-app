@@ -16,7 +16,8 @@ import GuestPage from "./Pages/RulePage/GuestPage";
 import PrivatePage from "./Pages/RulePage/PrivatePage";
 import UserDetail from "./Pages/UserDetail/UserDetail";
 import { fetchUserInfo } from "./redux/userSlice";
-import { useSocket } from "./Components/SocketProvider/SocketProvider";
+import io from "socket.io-client";
+import { activeSokcet } from "./socket/socketSlice";
 
 function App() {
   const status = useSelector((state) => state.user.status);
@@ -24,13 +25,10 @@ function App() {
   const user = useAuth();
   const dispatch = useDispatch();
 
-  const { socketRef, isConnected } = useSocket();
-
   React.useEffect(() => {
-    if (isConnected) {
-      socketRef.emit("123", "hello222");
-    }
-  }, [isConnected, socketRef]);
+    const socket = io(process.env.REACT_APP_SOCKET_SERVER);
+    dispatch(activeSokcet(socket));
+  }, [dispatch]);
 
   React.useEffect(() => {
     dispatch(fetchUserInfo());
