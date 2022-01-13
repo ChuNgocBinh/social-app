@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import request from "../../Api/request";
+import { toast } from 'react-toastify';
 
 const schema = yup
   .object({
@@ -42,9 +43,9 @@ export default function Login() {
         data: { userId: res.data._id },
       });
 
-      alert(res.message);
+      toast.success(res.message)
     } catch (error) {
-      alert("Đăng ký thất bại!");
+      toast.error('Register Fail')
     }
   };
 

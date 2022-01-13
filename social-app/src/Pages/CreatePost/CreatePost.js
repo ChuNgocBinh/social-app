@@ -6,6 +6,8 @@ import Ckeditor from "./Ckeditor"
 import request from "../../Api/request";
 import ListFollow from '../../Components/Follow/ListFollow';
 import useAuth from '../../hooks/useAuth';
+import { toast } from 'react-toastify';
+
 
 export default function CreatePost() {
   const userMe = useAuth();
@@ -41,7 +43,8 @@ export default function CreatePost() {
 
   const handleClickCreatepost = async () => {
     if (text === '') {
-      alert('Nội dung không được để trống')
+      // alert('Nội dung không được để trống')
+      toast.error('Content is Require')
     } else {
       try {
         let bodyFormData = new FormData();
@@ -64,13 +67,12 @@ export default function CreatePost() {
           method: 'POST',
           data: data,
         })
-
-        alert("Tạo bài viết thành công")
-        console.log(post)
+        toast.success('Create Post Success')
+        // console.log(post)
         setText('')
         setImage('')
       } catch (err) {
-        alert("Tạo bài viết thất bại")
+        toast.error('Create Post Error')
       }
     }
   }

@@ -17,7 +17,7 @@ const profileSchema = new mongoose.Schema(
       maxlength: 200,
     },
     // website: { type: String, default: "" },
-    saved: [{ type: mongoose.Types.ObjectId, ref: "user" }],
+    saved: [{ type: mongoose.Types.ObjectId, ref: "post" }],
   },
   {
     timestamps: true,

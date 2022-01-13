@@ -6,6 +6,7 @@ import request from "../../Api/request";
 import ProfileItemEdit from "../../Components/ProfileItemEdit/ProfileItemEdit";
 import * as Icon from "react-feather";
 import { Button } from "react-bootstrap";
+import { toast } from 'react-toastify';
 
 export default function EditProfile() {
   const useMe = useAuth();
@@ -43,8 +44,9 @@ export default function EditProfile() {
       method: "PUT",
       data,
     });
-    console.log(res);
+    // console.log(res);
     setProfile(res.data);
+    toast.success('Change Successfully')
   };
 
   const handleSubmitUserName = async (data) => {
@@ -54,6 +56,7 @@ export default function EditProfile() {
       data,
     });
     setUserMe(res.data);
+    toast.success('Change Successfully')
   };
 
   React.useEffect(() => {
@@ -87,7 +90,8 @@ export default function EditProfile() {
         avatar: res.data,
       };
       await handleSubmitUserName(newAvatar);
-      alert("Change Successfully");
+      toast.success('Change Successfully')
+      // alert("Change Successfully");
     }
   };
 

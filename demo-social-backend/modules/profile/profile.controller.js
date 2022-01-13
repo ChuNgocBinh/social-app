@@ -50,10 +50,28 @@ const updateProfile = async (req, res) => {
     data: userUpdate,
   });
 }
+const savePostByPostId = async (req, res) => {
+
+  const { user } = req
+  const { postId } = req.body
+
+  const savedPost = await ProfileModel
+    .findOneAndUpdate(
+      { userId: user._id },
+      { $push: { saved: postId } },
+      { new: true }
+    )
+
+  res.send({
+    success: true,
+    data: savedPost,
+  });
+}
 
 
 module.exports = {
   createProfile,
   getProfileByUserId,
-  updateProfile
+  updateProfile,
+  savePostByPostId
 };

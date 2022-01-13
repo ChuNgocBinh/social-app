@@ -6,6 +6,8 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -13,6 +15,7 @@ ReactDOM.render(
       {/* <SocketProvider> */}
       <BrowserRouter>
         <App />
+        <ToastContainer />
       </BrowserRouter>
       {/* </SocketProvider> */}
     </Provider>

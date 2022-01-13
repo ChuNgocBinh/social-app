@@ -17,7 +17,7 @@ import PrivatePage from "./Pages/RulePage/PrivatePage";
 import UserDetail from "./Pages/UserDetail/UserDetail";
 import { fetchUserInfo } from "./redux/userSlice";
 import io from "socket.io-client";
-import { activeSokcet } from "./socket/socketSlice";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const status = useSelector((state) => state.user.status);
@@ -27,7 +27,7 @@ function App() {
 
   React.useEffect(() => {
     const socket = io(process.env.REACT_APP_SOCKET_SERVER);
-    dispatch(activeSokcet(socket));
+    // dispatch(activeSokcet(socket));
   }, [dispatch]);
 
   React.useEffect(() => {

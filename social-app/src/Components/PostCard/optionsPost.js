@@ -6,7 +6,7 @@ import { BASE_URL } from "../../utils/config";
 import postApi from "../../Api/postApi";
 import useAuth from "../../hooks/useAuth";
 
-const EditPost = ({ post, handleDeletePost }) => {
+const OptionsPost = ({ post, handleDeletePost }) => {
   console.log(handleDeletePost);
   let navigate = useNavigate();
   // const { user, socket } = useSelector((state) => state);
@@ -18,8 +18,27 @@ const EditPost = ({ post, handleDeletePost }) => {
   const handleCopyLink = () => {
     navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`);
   };
+  const handleSavePost = async() => {
+    const profile = await request({
+      url: `/profile/${user._id}`,
+      method: 'GET'
+    })
+
+    if (profile?.data?.saved.includes(post._id)){
+      console.log('render1')
+      return;
+    }
+
+    const res = await request({
+      url: '/profile/save',
+      method: 'PUT',
+      data: {
+        postId: post._id
+      }
+    })
+  }
   return (
-    <div className="nav-item dropdown">
+    <div className="nav-item dropdown" style={{cursor: 'pointer'}}>
       <span className="material-icons" id="moreLink" data-toggle="dropdown">
         more_horiz
       </span>
@@ -42,9 +61,12 @@ const EditPost = ({ post, handleDeletePost }) => {
         <div className="dropdown-item" onClick={handleCopyLink}>
           <span className="material-icons">content_copy</span> Copy Link
         </div>
+        <div className="dropdown-item" onClick={handleSavePost}>
+          <span className="material-icons">content_copy</span> Save post
+        </div>
       </div>
     </div>
   );
 };
 
-export default EditPost;
+export default OptionsPost;

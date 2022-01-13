@@ -1,13 +1,13 @@
 import React from "react";
 import UserComment from "../../User/UserComment";
 import UserTimeCreateAt from "../../User/UserTimeCreateAt";
-import EditPost from "../EditPost";
+import OptionsPost from "../optionsPost";
 
 export const HeaderPost = ({ post, handleDeletePost }) => {
   return (
-    <div>
+    <div className='d-flex justify-content-between'>
       <UserTimeCreateAt post={post} />
-      <EditPost post={post} handleDeletePost={handleDeletePost} />
+      <OptionsPost post={post} handleDeletePost={handleDeletePost} />
     </div>
   );
 };

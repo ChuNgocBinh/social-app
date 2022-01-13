@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import momentDisplay from "../../lib/moment";
-import EditPost from "../PostCard/EditPost";
+import EditPost from "../PostCard/optionsPost";
 
 export default function UserTimeCreateAt({ post }) {
   return (
@@ -29,7 +29,6 @@ export default function UserTimeCreateAt({ post }) {
           </div>
         </div>
       </Link>
-      <EditPost post={post} />
     </div>
   );
 }

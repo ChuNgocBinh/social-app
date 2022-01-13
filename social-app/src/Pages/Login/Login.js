@@ -7,6 +7,7 @@ import request from "../../Api/request";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const schema = yup
   .object({
@@ -27,9 +28,11 @@ export default function Register() {
     const { email, password } = data;
     try {
       await dispatch(login({ email, password })).unwrap();
+      toast.success('Login Success!')
       navigate("/");
     } catch (error) {
-      alert("Fail Login!");
+      // alert("Fail Login!");
+      toast.error('Login Fail!')
     }
   };
 
