@@ -5,9 +5,6 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 export default function Ckeditor({ value, setValue }) {
-  // const [value, setValue] = React.useState('');
-  // console.log(value)
-
   return (
     <div className="mt-2">
       <h4>Content</h4>

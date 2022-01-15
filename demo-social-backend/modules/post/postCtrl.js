@@ -33,7 +33,13 @@ const createPost = async (req, res) => {
 };
 
 const getAllPosts = async (req, res) => {
-  const allPosts = await PostModel.find().sort({ createdAt: -1 }).populate({
+  const {skip, limit} = req.query;
+  const allPosts = await PostModel
+  .find()
+  .sort({ createdAt: -1 })
+  .skip(skip)
+  .limit(limit)
+  .populate({
     path: "userId",
     select: "username avatar",
   });

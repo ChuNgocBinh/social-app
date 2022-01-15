@@ -8,12 +8,14 @@ import ListFollow from '../../Components/Follow/ListFollow';
 import useAuth from '../../hooks/useAuth';
 import { toast } from 'react-toastify';
 import 'draft-js/dist/Draft.css';
+import { useNavigate } from "react-router-dom";
 
 
 export default function CreatePost() {
   const userMe = useAuth();
   const [image, setImage] = React.useState();
   const [text, setText] = React.useState('');
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     return () => {
@@ -38,11 +40,8 @@ export default function CreatePost() {
     }
   }
 
-  console.log(text)
-
   const handleClickCreatepost = async () => {
     if (text === '') {
-      // alert('Nội dung không được để trống')
       toast.error('Content is Require')
     } else {
       try {
@@ -67,9 +66,9 @@ export default function CreatePost() {
           data: data,
         })
         toast.success('Create Post Success')
-        // console.log(post)
         setText('')
         setImage('')
+        navigate('/')
       } catch (err) {
         toast.error('Create Post Error')
       }
